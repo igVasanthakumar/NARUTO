@@ -1,0 +1,117 @@
+https://docs.ansible.com/ansible/latest/installation_guide/installation_distros.html#installing-ansible-on-ubuntu
+
+
+question 1
+controller
+    1  sudo apt update
+    2  sudo apt install ansible
+    3  ansible --version
+    4  vim /etc/hosts
+    5  ping node1
+    6  vim /etc/hosts
+    7  ssh key-gen //wrong command
+    8  ssh-keygen
+    9  ssh-copy-id node1
+   10  ssh-copy-id node2
+   11  ssh root@node1
+   12  ansible --version
+   13  vim /etc/ansible/ansible.cfg
+   14  ls /etc/ansible
+   15  vim /etc/ansible/hosts
+   16  ansible all -m ping
+   17  ansible india_server -m ping
+   18  ansible node2 -m ping
+   19  history
+
+nodes
+    1  sudo apt update
+    2  vim /etc/ssh/sshd_config
+    3  passwd root
+    4  systemctl restart sshd
+    5  systemctl status sshd
+
+Q2
+controller
+   20  vim sample.yaml
+   21  ansible-playbook all sample.yaml --syntax-check
+   22  ansible-playbook sample.yaml --syntax-check
+   23  ansible-playbook sample.yaml -C
+   24  ansible-playbook sample.yaml
+
+node
+    8  cat /etc/passwd
+    9  systemctl status apache2
+
+sample.yml
+
+---
+- name: Create User and Install HTTPD
+  hosts: all
+
+  tasks:
+    - name: Create user 'bob'
+      user:
+        name: bob
+        home: /itimindtree
+        uid: 1500
+        shell: /bin/bash
+        state: present
+
+    - name: Install HTTPD package
+      yum:
+        name: httpd
+        state: present
+
+    - name: Start HTTPD service
+      service:
+        name: httpd
+        state: started
+        enabled: yes
+
+Q3. Docker
+  podman --version or rpmquery podman
+  sudo yum remove podman
+  https://docs.docker.com/engine/install/centos/
+  Get presteps from website
+  312  sudo apt-get update
+  313  sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+  314  docker --version
+  315  sudo docker run hello-world
+  316  docker run hello-world
+  317  docker get images
+  318  docker images
+  
+Q4. 
+   40  docker pull ubuntu
+   41  docker run  -it --name web-app -p 8080:80 ubuntu:latest /bin/bash
+   42  docker container ls
+   43  docker inspect web-app
+   44  curl http://172.17.0.2
+   45  curl http://localhost:8080
+
+inside image
+    1  apt update
+    2  apt install apache2
+    3  cat > /var/www/html/index.html
+    4  service apache2 start
+    5  history
+ctrl P + ctrl Q
+
+Q5.
+nginx.yaml
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.14.2
+    ports:
+    - containerPort: 80
+
+command
+ kubectl create -f nginx.yaml
+ kubectl get pod // kubectl get pod -o wide
+ kubectl describe pod
